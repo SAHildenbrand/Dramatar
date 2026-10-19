@@ -69,10 +69,13 @@ final class SpirographBuilder implements Builder
     public function build(Rng $rng): GdImage
     {
         $px = self::SIZE * self::SCALE;
+        // Curves are drawn on a transparent layer; the background is chosen afterwards.
         $image = imagecreatetruecolor($px, $px);
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
+        imagefill($image, 0, 0, (int) imagecolorallocatealpha($image, 0, 0, 0, 127));
         imagealphablending($image, true);
         imageantialias($image, true);
-        imagefill($image, 0, 0, (int) imagecolorallocate($image, 255, 255, 255));
 
         $dark = (int) imagecolorallocate($image, $rng->int(0, 90), $rng->int(0, 90), $rng->int(0, 90));
         $light = (int) imagecolorallocate($image, $rng->int(110, 255), $rng->int(110, 255), $rng->int(110, 255));
@@ -89,7 +92,47 @@ final class SpirographBuilder implements Builder
         // The original reused ra (i) as the first radius of the second curve.
         $this->curve($image, $rng, $this->stroke2, $light, $c, $d, $ra, $this->outer2 - $ra2);
 
-        return $image;
+        return $this->withBackground($image, $dark);
+    }
+
+    /**
+     * Put the curves on a background that is the complement of their dominant colour and
+     * opposite in lightness (dark art on a light ground, light art on a dark one).
+     */
+    private function withBackground(GdImage $layer, int $fallbackColor): GdImage
+    {
+        $px = imagesx($layer);
+        $sumR = $sumG = $sumB = $weight = 0.0;
+        for ($y = 0; $y < $px; $y += 2) {
+            for ($x = 0; $x < $px; $x += 2) {
+                $pixel = imagecolorat($layer, $x, $y);
+                $coverage = (127 - (($pixel >> 24) & 0x7F)) / 127;
+                if ($coverage > 0) {
+                    $sumR += (($pixel >> 16) & 0xFF) * $coverage;
+                    $sumG += (($pixel >> 8) & 0xFF) * $coverage;
+                    $sumB += ($pixel & 0xFF) * $coverage;
+                    $weight += $coverage;
+                }
+            }
+        }
+
+        if ($weight > 0) {
+            [$hue, $saturation, $lightness] = Color::rgbToHsl((int) ($sumR / $weight), (int) ($sumG / $weight), (int) ($sumB / $weight));
+        } else {
+            [$hue, $saturation, $lightness] = [0.0, 0.0, 0.5];
+        }
+        if ($saturation < 0.12) {
+            // Mixed or grey art (e.g. the rainbow stroke) has no clear hue; use the first curve's.
+            [$hue] = Color::rgbToHsl(($fallbackColor >> 16) & 0xFF, ($fallbackColor >> 8) & 0xFF, $fallbackColor & 0xFF);
+        }
+
+        $out = imagecreatetruecolor($px, $px);
+        imagealphablending($out, true);
+        imagefill($out, 0, 0, Color::allocateHsl($out, fmod($hue + 0.5, 1.0), 0.45, $lightness > 0.5 ? 0.14 : 0.9));
+        imagecopy($out, $layer, 0, 0, 0, 0, $px, $px);
+        imagedestroy($layer);
+
+        return $out;
     }
 
     private function curve(GdImage $image, Rng $rng, Stroke $stroke, int $color, int $angleA, int $angleB, int $ra, int $rb): void
