@@ -49,6 +49,16 @@ Same curve generator; each point is an ellipse outline (random 1-25px axes) inst
 
 Same curve generator with wider parameter ranges (a in [1,100], b in [-100,10], ra in [-50,50]) and rectangles between successive points instead of lines.
 
+### kaleidoscope
+![kaleidoscope](samples/kaleidoscope.png)
+
+Procedural, new (not part of the original service). Nine random translucent polygons are generated in one wedge of the circle, then rotated and mirrored around the centre into 5-10 segments, with a pale dot at the middle. Colours are an analogous palette around one base hue on a dark background.
+
+### dunes
+![dunes](samples/dunes.png)
+
+Procedural, new (not part of the original service). A vertical sky gradient with a glowing sun, then 4-6 layers of hills made from two summed sine waves each, fading from pale in the distance to dark in front. All colours come from one base hue.
+
 ## Adding a model
 
 Layered: subclass `LayeredBuilder`, return a `Layer` list bottom to top (override `background()` or `place()` if needed), add parts under `parts/<dir>/`, register in `Avatar::__construct`. Procedural: add a preset to `SpirographBuilder`, or implement `Builder` directly.

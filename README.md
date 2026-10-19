@@ -20,6 +20,7 @@ HTTP: point a rewrite at `public/index.php`, then `GET /avatar/{hash}.png?type=a
 |---|---|---|
 | `anime`, `ragdoll`, `blockies`, `flower` | `LayeredBuilder` subclasses | Random transparent PNG parts stacked over a coloured background. |
 | `spiro`, `arc`, `arcii`, `boxy` | `SpirographBuilder` presets | Two overlaid epicycle curves; the presets differ only in parameter ranges and `Stroke` style. |
+| `kaleidoscope`, `dunes` | own builders | New procedural types, not from the original service. |
 
 Details and samples for every model: [docs/models.md](docs/models.md).
 

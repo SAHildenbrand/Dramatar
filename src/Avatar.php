@@ -7,7 +7,9 @@ namespace Dramatar;
 use Dramatar\Builder\AnimeBuilder;
 use Dramatar\Builder\BlockiesBuilder;
 use Dramatar\Builder\Builder;
+use Dramatar\Builder\DunesBuilder;
 use Dramatar\Builder\FlowerBuilder;
+use Dramatar\Builder\KaleidoscopeBuilder;
 use Dramatar\Builder\SpirographBuilder;
 use Dramatar\Builder\RagdollBuilder;
 use GdImage;
@@ -33,6 +35,8 @@ final class Avatar
             'arc' => SpirographBuilder::arc(),
             'arcii' => SpirographBuilder::arcii(),
             'boxy' => SpirographBuilder::boxy(),
+            'kaleidoscope' => new KaleidoscopeBuilder(),
+            'dunes' => new DunesBuilder(),
         ];
     }
 
