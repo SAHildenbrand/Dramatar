@@ -1,0 +1,16 @@
+{
+    "name": "rocketfull/dramatar",
+    "description": "Deterministic avatar generator: the same hash (e.g. an email MD5) always yields the same avatar.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.2",
+        "ext-gd": "*"
+    },
+    "autoload": {
+        "psr-4": { "Dramatar\\": "src/" }
+    },
+    "scripts": {
+        "test": "php tests/smoke.php"
+    }
+}

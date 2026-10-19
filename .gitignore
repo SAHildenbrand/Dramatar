@@ -1,0 +1,33 @@
+# Dependencies and generated output
+/vendor/
+/cache/
+/out/
+composer.lock
+
+# Tooling
+.phpunit.result.cache
+.php-cs-fixer.cache
+.claude/
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and scratch
+*.log
+error_log
+*.bak
+*.tmp
+
+# Artwork source/working files and hidden parts (the builders skip dotfiles anyway)
+*.psd
+*.psb
+parts/**/.*
+parts/**/.OLD/
+
+# Retired models and their artwork (kept locally, not published)
+/archive/
