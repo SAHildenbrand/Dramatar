@@ -32,7 +32,7 @@ Hybrid: saturated background, one or two leaf parts (24 available), then a **dra
 ### spiro
 ![spiro](samples/spiro.png)
 
-Procedural. Two overlaid epicycle curves, `x = ra*cos(k*a) + rb*cos(k*b)`, `y` likewise with sin, on white. Curve 1 is a dark solid line; curve 2 is a solid line whose hue steps through the colour wheel each segment. Parameters: a in [-20,20], b in [5,10], ra in [1,100], c in [1,10], d in [1,5], second radius in [1,50]. Curves end when they return within 2px of the start or after 6000 steps.
+Procedural. Two overlaid epicycle curves, `x = ra*cos(k*a) + rb*cos(k*b)`, `y` likewise with sin. The background is the complement of the art's dominant hue, dark behind light art and light behind dark art (all four spirograph types do this). Curve 1 is a dark solid line; curve 2 is a solid line whose hue steps through the colour wheel each segment. Parameters: a in [-20,20], b in [5,10], ra in [1,100], c in [1,10], d in [1,5], second radius in [1,50]. Curves end when they return within 2px of the start or after 6000 steps.
 
 ### arc
 ![arc](samples/arc.png)
